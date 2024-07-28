@@ -36,7 +36,7 @@ class Task(models.Model):
                             max_length=512,
                             validators=ValidatorTask.description_validator
                            )
-    status = models.CharField(choices=STATUS_CHOICES, blank=True, help_text='статус задачи', verbose_name='статус')
+    status = models.CharField(choices=STATUS_CHOICES, default=QUEUE, help_text='статус задачи', verbose_name='статус')
     create_at = models.DateTimeField(auto_now_add=True, help_text='дата создания задачи', verbose_name='дата создания')
 
     def __str__(self):

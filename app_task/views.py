@@ -3,6 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Task
 from .serializers import TaskSerializer
+from .spectacular import extend_schema_post
 
 
 @extend_schema(tags=["Tasks"])
@@ -30,7 +31,7 @@ class TaskViewSet(viewsets.ViewSet):
         except Task.DoesNotExist:
             return Response({"detail": "not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    @extend_schema(summary='Создать новую задачу')
+    @extend_schema(**extend_schema_post)
     def create(self, request, *args, **kwargs):
 
         context = {'request': request}
