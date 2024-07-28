@@ -7,13 +7,13 @@ from .serializers import TaskSerializer
 
 @extend_schema(tags=["Tasks"])
 class TaskViewSet(viewsets.ViewSet):
-    queryset = Task.objects.all()
+    queryset = Task.objects
     serializer_class = TaskSerializer
 
     @extend_schema(summary='Получить список задач')
     def list(self, request, *args, **kwargs):
 
-        tasks = self.queryset
+        tasks = self.queryset.all()
         context = {'request': request}
         serializer = self.serializer_class(tasks, many=True, context=context)
         return Response(serializer.data)

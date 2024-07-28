@@ -37,7 +37,7 @@ class Task(models.Model):
                             validators=ValidatorTask.description_validator
                            )
     status = models.CharField(choices=STATUS_CHOICES, blank=True, help_text='статус задачи', verbose_name='статус')
-    create_at = models.DateTimeField(help_text='дата создания задачи', verbose_name='дата создания')
+    create_at = models.DateTimeField(auto_now_add=True, help_text='дата создания задачи', verbose_name='дата создания')
 
     def __str__(self):
         return f"{self.title}  {self.status}  создана: {self.create_at.strftime('%d.%m.%Y - %X')}({s.TIME_ZONE})"
