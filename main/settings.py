@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    
+    'drf_spectacular',
+
     'app_task',
 ]
 
@@ -126,7 +127,25 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # "DEFAULT_RENDERER_CLASSES": [
+    #         "rest_framework.renderers.JSONRenderer",
+    #     ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Task manager",
+    "DESCRIPTION": "Task management system API",
+    "VERSION": "0.0.1",
+    "CONTACT": {},
+    "LICENSE": {},
+    "SERVE_INCLUDE_SCHEMA": False,
+}
