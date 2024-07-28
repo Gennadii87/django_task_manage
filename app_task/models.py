@@ -9,11 +9,11 @@ class ValidatorTask:
 
 
 class Task(models.Model):
+    objects = None
+
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
-
-    object = None
 
     QUEUE = 'в очереди'
     PROGRESS = 'в процессе'
