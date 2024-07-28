@@ -9,7 +9,6 @@ class ValidatorTask:
 
 
 class Task(models.Model):
-    objects = None
 
     class Meta:
         verbose_name = 'Задача'
