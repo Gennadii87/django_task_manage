@@ -10,10 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import time
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+
+if load_dotenv(dotenv_path=".env"):
+    print(f"Загрузка переменных окружения из .env")
+else:
+    time.sleep(1)
+    load_dotenv(dotenv_path=".env_docker")
+    print(f"Загрузка переменных окружения из .env_docker")
+time.sleep(2)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,57 +92,29 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 #Для развертывания вне Docker
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("POSTGRES_DB"),
-#         "USER": os.getenv("POSTGRES_USER"),
-#         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-#         "HOST": os.getenv("POSTGRES_HOST"),
-#         "PORT": os.getenv("PORT"),
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": 'tasks_db',
-        "USER": 'postgres',
-        "PASSWORD": 'superuser',
-        "HOST": 'postgres',
-        "PORT": 5432,
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
     }
 }
 
-#Для развертывания вне Docker
-
-# ELASTICSEARCH_DSL = {
-#     'default': {
-#         'hosts': 'http://localhost:9200'
-#     },
-# }
-
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://elasticsearch:9200'
+        'hosts': os.getenv("ELASTIC_HOST")
     },
 }
 
-CELERY_BROKER_URL = 'amqp://rabbitmq'
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
-
-#Для развертывания вне Docker
-
-# CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
-# CELERY_RESULT_BACKEND = 'rpc://'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'UTC'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
