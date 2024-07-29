@@ -5,7 +5,7 @@ from app_task.models import Task
 
 
 @registry.register_document
-class CategoryDocument(Document):
+class TaskDocument(Document):
     id = fields.IntegerField()
     title = fields.TextField()
     description = fields.TextField()
