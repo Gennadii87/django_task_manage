@@ -14,8 +14,7 @@ class TaskViewSet(viewsets.ViewSet):
     def list(self, request, *args, **kwargs):
 
         tasks = self.queryset.all()
-        context = {'request': request}
-        serializer = self.serializer_class(tasks, many=True, context=context)
+        serializer = self.serializer_class(tasks, many=True)
         return Response(serializer.data)
 
     @extend_schema(summary='Получить задачу по id')
@@ -23,9 +22,8 @@ class TaskViewSet(viewsets.ViewSet):
 
         try:
             pk = kwargs.get('pk')
-            context = {'request': request}
             task = self.queryset.get(pk=pk)
-            serializer = self.serializer_class(task, context=context)
+            serializer = self.serializer_class(task)
             return Response(serializer.data)
         except Task.DoesNotExist:
             return Response({"detail": "not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -33,8 +31,7 @@ class TaskViewSet(viewsets.ViewSet):
     @extend_schema(summary='Создать новую задачу')
     def create(self, request, *args, **kwargs):
 
-        context = {'request': request}
-        serializer = self.serializer_class(data=request.data,  context=context)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -46,8 +43,8 @@ class TaskViewSet(viewsets.ViewSet):
         try:
             pk = kwargs.get('pk')
             task = self.queryset.get(pk=pk)
-            context = {'request': request}
-            serializer = self.serializer_class(task, data=request.data, partial=True, context=context)
+
+            serializer = self.serializer_class(task, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
