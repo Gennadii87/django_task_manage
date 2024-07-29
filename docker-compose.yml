@@ -46,6 +46,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .env_docker
     container_name: django
     command: >
       /bin/sh -c "
@@ -72,6 +74,7 @@ services:
       - .env_docker
     command: ["celery", "-A", "main", "worker", "--loglevel=info"]
     depends_on:
+      - web
       - rabbitmq
       - postgres
     volumes:
