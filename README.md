@@ -24,3 +24,10 @@ Task management system/Система управления задачами
 Выполнить запуск приложения:
 
     python manage.py runserver  
+
+
+Для сборки контецнеров запускаем docker compose up -d
+
+для остановки docker compose down
+
+с удалением томов (рекомендуется) docker compose down -v
