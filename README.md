@@ -8,11 +8,27 @@ Swagger http://127.0.0.1:8000/swagger-ui/
 
 <h2>Запуск в ручную</h2>
 
-***Перед запуском в ручную необходимо установить и настроить RabbitMQ и ElasticSearch, рекомендуется использовать Docker***
+***Перед запуском в ручную необходимо установить и настроить PostgreSQL, RabbitMQ и ElasticSearch, рекомендуется использовать Docker***
 
-Команды ручного запуска:
+Команды ручного запуска, например на Windows:
 
-***Перед этим раскомментируйте в настройках Django код***
+Создайте файл `.env` и внесите туда данные из примера, или укажите свои <br/>
+Разместите его в корне проекта там где файл `manage.py` <br/>
+Создайте базу данных в PostgreSQL <br/> 
+
+Пример файла `.env`
+<pre>
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=superuser
+    POSTGRES_DB=tasks_db
+    HOST=localhost
+    PORT=5432
+
+    ELASTIC_HOST='http://localhost:9200'
+    CELERY_BROKER_URL = 'pyamqp://guest:guest@localhost//'
+</pre>
+
+***Убедитесь что  PostgreSQL, RabbitMQ и ElasticSearch настроены и работают***
 
 Обновить менеджер pip:
     
@@ -40,6 +56,8 @@ Swagger http://127.0.0.1:8000/swagger-ui/
 
 <h1>Запуск через Docker</h1>
 
+Если запускаете с помощью Docker, то `.env` создавать не нужно, все необходимое есть в `.env_docker`
+
 Для сборки контейнеров запускаем 
     
     docker compose up -d
@@ -62,6 +80,9 @@ Swagger http://127.0.0.1:8000/swagger-ui/
     - Сервис Flower для просмотра выполнения очереди задач http://localhost:5555/
     - Документация Swagger доступна http://127.0.0.1:8000/swagger-ui/
     - Полнотекстовый поиск задач через ElasticSearch по названию, описанию и статусу (http://localhost:9200/)
+    - Поиск можно осуществлять использую необходимые Endpoint (ручки) 
+    - Найти все задачи: http://127.0.0.1:8000/search/all/
+    - Найти по определенному значению http://127.0.0.1:8000/search/task/{название, описание или статус}/
 
 </pre>
 
