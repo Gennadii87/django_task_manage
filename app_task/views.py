@@ -3,11 +3,12 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Task
 from .serializers import TaskSerializer
+from .tasks import process_task
 
 
 @extend_schema(tags=["Tasks"])
 class TaskViewSet(viewsets.ViewSet):
-    queryset = Task.objects
+    queryset = Task.objects.order_by('id')
     serializer_class = TaskSerializer
 
     @extend_schema(summary='Получить список задач')
@@ -33,7 +34,8 @@ class TaskViewSet(viewsets.ViewSet):
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            task = serializer.save()
+            process_task.delay(task.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
