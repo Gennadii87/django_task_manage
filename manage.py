@@ -2,6 +2,10 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import warnings
+
+
+warnings.filterwarnings("ignore")
 
 
 def main():
