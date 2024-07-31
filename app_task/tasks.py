@@ -1,3 +1,4 @@
+from .models import Task
 from celery import shared_task
 import time
 
@@ -6,7 +7,6 @@ import time
 def process_task(task_id):
     """Имитация выполнения задачи"""
     time.sleep(10)
-    from .models import Task
     task = Task.objects.get(id=task_id)
     task.status = Task.COMPLETED
     task.save()
