@@ -7,8 +7,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'main.settings')
 
 app = Celery('main')
 
-# Используем строку конфигурации для Celery
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# Загружаем задачи из всех зарегистрированных приложений Django
 app.autodiscover_tasks()
